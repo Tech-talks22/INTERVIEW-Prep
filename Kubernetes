@@ -1,4 +1,4 @@
-1. What is Kubernetes?
+1. What is Kubernetes? 
 
 Kubernetes is an open-source container orchestration platform originally developed by Google. It automates deployment, scaling, and management of containerized applications. Kubernetes manages clusters of nodes running containers. It ensures high availability and fault tolerance. It is widely used in cloud-native DevOps architectures.
 
