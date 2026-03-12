@@ -1,0 +1,400 @@
+1. What is Kubernetes?
+
+Kubernetes is an open-source container orchestration platform originally developed by Google. It automates deployment, scaling, and management of containerized applications. Kubernetes manages clusters of nodes running containers. It ensures high availability and fault tolerance. It is widely used in cloud-native DevOps architectures.
+
+2. What is a Kubernetes Cluster?
+
+A Kubernetes cluster consists of control plane nodes and worker nodes. The control plane manages the cluster state and scheduling. Worker nodes run application containers. The cluster provides scalability and reliability. It allows distributed containerized workloads.
+
+3. What is a Pod?
+
+A Pod is the smallest deployable unit in Kubernetes. It can contain one or more containers sharing storage and networking. Containers in the same pod communicate via localhost. Pods are ephemeral and managed by controllers. They are scheduled onto worker nodes.
+
+4. What is a Node?
+
+A Node is a worker machine in a Kubernetes cluster. It can be a virtual machine or physical server. Nodes run container workloads through a container runtime. Each node contains components like kubelet and kube-proxy. Nodes communicate with the control plane.
+
+5. What are Kubernetes Master Components?
+
+Control plane components include API Server, Scheduler, Controller Manager, and etcd. API Server acts as the entry point for all cluster operations. Scheduler assigns pods to nodes. Controller Manager maintains cluster state. etcd stores cluster configuration and metadata.
+
+6. What is kube-apiserver?
+
+The API Server is the central component of Kubernetes. It exposes Kubernetes APIs used by clients and tools. All operations go through this component. It validates and processes REST requests. It communicates with etcd to store cluster state.
+
+7. What is etcd?
+
+etcd is a distributed key-value store used by Kubernetes. It stores cluster configuration and metadata. It ensures high availability using consensus algorithms. etcd is critical for cluster state persistence. Losing etcd data means losing cluster configuration.
+
+8. What is kube-scheduler?
+
+The scheduler assigns pods to available worker nodes. It evaluates resource requirements and policies. Scheduling decisions consider CPU, memory, and affinity rules. It ensures optimal workload distribution. Pods remain pending until scheduled.
+
+9. What is kube-controller-manager?
+
+Controller manager runs multiple controllers responsible for maintaining cluster state. Examples include node controller and replication controller. Controllers monitor resources and take corrective actions. They ensure desired state matches actual state. This enables self-healing infrastructure.
+
+10. What is kubelet?
+
+Kubelet is an agent running on each worker node. It communicates with the Kubernetes control plane. Kubelet ensures containers described in pod specs are running. It interacts with container runtimes. It also reports node status to the API server.
+
+11. What is kube-proxy?
+
+kube-proxy manages network rules on nodes. It enables communication between services and pods. It handles load balancing across pod replicas. kube-proxy works with networking plugins. It uses iptables or IPVS for routing traffic.
+
+12. What is a Deployment?
+
+Deployment is a Kubernetes resource used to manage stateless applications. It defines desired pod replicas and update strategies. Deployments support rolling updates and rollbacks. They ensure application availability during upgrades. Deployments manage ReplicaSets internally.
+
+13. What is ReplicaSet?
+
+ReplicaSet ensures a specified number of pod replicas are running. If a pod fails, it automatically creates a new one. It maintains application availability. ReplicaSets are usually managed by Deployments. Direct usage is uncommon.
+
+14. What is StatefulSet?
+
+StatefulSet manages stateful applications requiring stable identities. Each pod gets a persistent hostname and storage. It ensures ordered deployment and scaling. StatefulSets are used for databases. Examples include MongoDB or MySQL clusters.
+
+15. What is DaemonSet?
+
+DaemonSet ensures a pod runs on every node in the cluster. It is commonly used for monitoring and logging agents. Examples include Fluentd and Prometheus exporters. When new nodes join the cluster, pods are automatically deployed. It ensures cluster-wide services.
+
+16. What is a Kubernetes Service?
+
+A Service exposes pods as a network service. It provides a stable IP address. Services enable communication between applications. They support load balancing across pods. This solves the problem of dynamic pod IP addresses.
+
+17. Types of Kubernetes Services
+
+Service types include ClusterIP, NodePort, LoadBalancer, and ExternalName. ClusterIP is the default internal service. NodePort exposes service on node ports. LoadBalancer integrates with cloud load balancers. ExternalName maps service to external DNS.
+
+18. What is ClusterIP?
+
+ClusterIP is the default service type in Kubernetes. It exposes services internally within the cluster. Only pods inside the cluster can access it. It assigns a virtual IP. This ensures internal service discovery.
+
+19. What is NodePort?
+
+NodePort exposes a service on a static port on each node. External users can access services via node IP and port. It allows basic external connectivity. However it is not recommended for production workloads. LoadBalancer is usually preferred.
+
+20. What is LoadBalancer Service?
+
+LoadBalancer service integrates with cloud providers. It provisions external load balancers automatically. Examples include AWS ELB or Azure Load Balancer. Traffic is distributed across pod replicas. This is common for production applications.
+
+21. What is Ingress?
+
+Ingress manages external HTTP/HTTPS access to services. It provides routing rules based on hostnames and paths. Ingress controllers implement the actual routing logic. It supports SSL termination. It reduces the need for multiple load balancers.
+
+22. What is ConfigMap?
+
+ConfigMap stores configuration data for applications. It allows separation of configuration from container images. Pods can access ConfigMaps as environment variables or files. It simplifies application configuration management. ConfigMaps are not meant for sensitive data.
+
+23. What is Secret?
+
+Secrets store sensitive information like passwords or API keys. Kubernetes encodes them using base64. Secrets can be mounted as environment variables or files. They improve security compared to plain configuration. Many applications rely on them for credentials.
+
+24. What is Persistent Volume (PV)?
+
+Persistent Volume is a storage resource in Kubernetes. It represents physical storage like disks or network storage. PVs exist independently of pods. They allow persistent data storage. Applications use them for databases or logs.
+
+25. What is Persistent Volume Claim (PVC)?
+
+PVC is a request for storage by a pod. It specifies storage size and access mode. Kubernetes binds PVCs to available PVs. This abstracts storage management. Applications consume storage through PVCs.
+
+26. What is StorageClass?
+
+StorageClass defines dynamic storage provisioning policies. It specifies storage backend and parameters. Kubernetes automatically creates PVs when PVCs are requested. This simplifies storage management. It is widely used in cloud environments.
+
+27. What is Kubernetes Namespace?
+
+Namespace divides cluster resources logically. It allows multiple teams to share a cluster. Each namespace has its own resources and policies. It improves resource isolation. Examples include dev, test, and prod namespaces.
+
+28. What is Resource Quota?
+
+ResourceQuota limits resource usage in a namespace. It restricts CPU, memory, and object counts. This prevents resource exhaustion. Administrators use it for multi-tenant clusters. It ensures fair resource allocation.
+
+29. What is Horizontal Pod Autoscaler (HPA)?
+
+HPA automatically scales pods based on metrics. It typically uses CPU or memory utilization. When load increases, more pods are created. When load decreases, pods are removed. This ensures efficient resource usage.
+
+30. What is Vertical Pod Autoscaler?
+
+Vertical Pod Autoscaler adjusts CPU and memory limits of pods. It optimizes resource allocation dynamically. Unlike HPA it does not change pod count. Instead it updates resource requests. It improves efficiency for workloads.
+
+31. What is Cluster Autoscaler?
+
+Cluster Autoscaler automatically adjusts node count. It adds nodes when pods cannot be scheduled. It removes unused nodes during low demand. This helps optimize infrastructure cost. It is common in cloud Kubernetes clusters.
+
+32. What is Kubernetes Networking?
+
+Kubernetes networking allows communication between pods, services, and external clients. Every pod gets a unique IP address. Pods can communicate without NAT. Network plugins implement networking rules. Examples include Calico and Flannel.
+
+33. What is CNI?
+
+Container Network Interface (CNI) provides networking for containers. Kubernetes uses CNI plugins to implement networking. These plugins manage pod networking and policies. Examples include Calico, Flannel, and Weave. CNI enables cluster communication.
+
+34. What is Network Policy?
+
+Network policies control traffic between pods. They define rules for ingress and egress traffic. This improves security in Kubernetes clusters. Only allowed traffic can reach specific pods. Network policies are enforced by CNI plugins.
+
+35. What is Kubernetes Rolling Update?
+
+Rolling update gradually replaces old pods with new ones. It ensures zero downtime deployments. New pods are created before old ones are removed. If issues occur deployments can be rolled back. This improves application reliability.
+
+36. What is Rollback in Kubernetes?
+
+Rollback restores a previous version of deployment. It is useful when new releases fail. Kubernetes keeps revision history of deployments. Administrators can revert easily. This ensures quick recovery from failures.
+
+37. What is Helm?
+
+Helm is a package manager for Kubernetes. It simplifies application deployment using Helm charts. Charts define Kubernetes resources in templates. Helm allows versioned application releases. It is widely used in production clusters.
+
+38. What is a Helm Chart?
+
+Helm chart is a collection of Kubernetes resource templates. It defines application deployment configurations. Charts include templates, values files, and metadata. They allow reusable deployments. Many open-source charts exist in repositories.
+
+39. What is Kubernetes RBAC?
+
+RBAC stands for Role-Based Access Control. It controls user access to Kubernetes resources. Roles define permissions for resources. RoleBindings assign roles to users or service accounts. RBAC improves cluster security.
+
+40. What is Service Account?
+
+Service accounts provide identities for applications running in pods. They are used for authentication with Kubernetes APIs. Pods automatically use service accounts. Permissions are controlled using RBAC. This ensures secure API access.
+
+41. What is Kubernetes Operator?
+
+Operator is a custom controller that manages complex applications. It extends Kubernetes functionality using CRDs. Operators automate tasks like deployment and scaling. They manage stateful applications. Examples include database operators.
+
+42. What is Custom Resource Definition (CRD)?
+
+CRD allows users to define custom Kubernetes resources. It extends Kubernetes API capabilities. Developers create new resource types. Controllers manage these custom resources. CRDs are commonly used with operators.
+
+43. What is Kubernetes Self-Healing?
+
+Self-healing means Kubernetes automatically recovers failed components. If a pod crashes it is restarted. If a node fails pods are rescheduled. Controllers ensure desired state is maintained. This improves reliability of applications.
+
+44. What is Kubernetes Logging?
+
+Kubernetes logging collects container logs. Logs are written to stdout and stderr. Log collectors gather logs from nodes. Tools like Fluentd or ELK stack are used. Logging helps debugging applications.
+
+45. What is Kubernetes Monitoring?
+
+Monitoring tracks cluster performance and health. Metrics include CPU, memory, and pod usage. Tools like Prometheus collect metrics. Visualization is done using dashboards like Grafana. Monitoring ensures system reliability.
+
+46. What is Kubernetes Taint?
+
+Taints prevent pods from being scheduled on nodes. They mark nodes with restrictions. Only pods with matching tolerations can run there. This helps dedicate nodes for specific workloads. It improves workload isolation.
+
+47. What is Toleration?
+
+Tolerations allow pods to run on tainted nodes. They match taint conditions. Without toleration pods cannot schedule on such nodes. This mechanism controls workload placement. It is commonly used for special nodes.
+
+48. What is Pod Affinity?
+
+Pod affinity ensures pods run close to certain pods. It improves performance and communication. It is useful for microservices that interact frequently. Affinity rules influence scheduling decisions. It helps optimize cluster placement.
+
+49. What is Pod Anti-Affinity?
+
+Pod anti-affinity prevents pods from running on the same node. It improves high availability. Applications avoid single point of failure. Scheduling rules distribute pods across nodes. This enhances fault tolerance.
+
+50. Explain a Real-Time Kubernetes Project
+
+In a production project we deployed microservices using Kubernetes. Containers were built using Docker images. Applications were deployed using Helm charts. Autoscaling was configured using HPA. Monitoring was implemented using Prometheus and Grafana.
+
+
+51. What is a Container Runtime in Kubernetes?
+
+Container runtime is the software responsible for running containers. Kubernetes interacts with runtimes using the Container Runtime Interface (CRI). Common runtimes include containerd and CRI-O. The runtime pulls container images and manages container lifecycle. It runs on worker nodes.
+
+52. What is containerd?
+
+containerd is a lightweight container runtime used by Kubernetes. It manages container lifecycle operations. It pulls images, starts containers, and manages storage. It replaced Docker as the default runtime in many clusters. It is optimized for Kubernetes workloads.
+
+53. What is CRI (Container Runtime Interface)?
+
+CRI is an interface that allows Kubernetes to communicate with container runtimes. It standardizes how runtimes integrate with Kubernetes. This allows multiple runtime implementations. Examples include containerd and CRI-O. CRI improves Kubernetes flexibility.
+
+54. What is the difference between Docker and Kubernetes?
+
+Docker is a container platform used to build and run containers. Kubernetes orchestrates containers across clusters. Docker handles container creation. Kubernetes manages scaling, networking, and deployment. They work together in containerized systems.
+
+55. What is a Static Pod?
+
+Static Pods are managed directly by the kubelet on a node. They are not controlled by the Kubernetes API server. Configuration files are stored on the node filesystem. Static pods are commonly used for control plane components. They are automatically recreated if deleted.
+
+56. What is Pod Lifecycle?
+
+Pod lifecycle includes phases such as Pending, Running, Succeeded, Failed, and Unknown. Kubernetes tracks pod state through these phases. Pods start in Pending while scheduling occurs. Once containers run they move to Running. Lifecycle helps monitor application health.
+
+57. What are Pod Probes?
+
+Probes monitor container health and availability. Kubernetes supports liveness, readiness, and startup probes. Liveness determines if a container should restart. Readiness checks if the pod can receive traffic. Probes improve application reliability.
+
+58. What is Liveness Probe?
+
+Liveness probe checks if a container is alive. If it fails Kubernetes restarts the container. This prevents stuck applications from running indefinitely. It helps maintain healthy workloads. Probes can use HTTP, TCP, or commands.
+
+59. What is Readiness Probe?
+
+Readiness probe checks whether a container is ready to serve traffic. If the probe fails the pod is removed from service endpoints. This prevents sending traffic to unhealthy pods. It improves load balancing reliability. It does not restart containers.
+
+60. What is Startup Probe?
+
+Startup probe checks application initialization. It allows containers more time to start before liveness probes run. This prevents premature restarts during startup. It is useful for slow-starting applications. Once successful, other probes take over.
+
+61. What is Pod Disruption Budget (PDB)?
+
+PDB ensures minimum availability of pods during voluntary disruptions. It prevents too many pods from being terminated simultaneously. This is useful during node maintenance. Administrators define minimum or maximum pod availability. It protects application uptime.
+
+62. What is Node Affinity?
+
+Node affinity controls pod placement based on node labels. It ensures pods run on specific nodes. This helps allocate workloads to suitable hardware. It can enforce strict or preferred scheduling rules. Node affinity improves cluster resource utilization.
+
+63. What is Kubernetes Scheduler Policy?
+
+Scheduler policies define rules for pod placement. They consider factors like resource availability and affinity. Policies influence scheduling decisions. Administrators configure them to optimize workload distribution. This ensures efficient resource usage.
+
+64. What is Headless Service?
+
+Headless service does not assign a cluster IP. Instead it exposes pod IPs directly. It is commonly used with StatefulSets. Clients can directly access individual pods. It supports service discovery.
+
+65. What is Init Container?
+
+Init containers run before main containers in a pod. They perform initialization tasks. Examples include downloading configuration files. Once init containers complete the main containers start. They ensure proper application setup.
+
+66. What is Sidecar Container?
+
+Sidecar containers run alongside main containers in the same pod. They extend functionality of the application. Examples include logging or monitoring agents. Sidecars share networking and storage with the main container. This pattern improves modularity.
+
+67. What is Kubernetes Job?
+
+Job creates pods to run batch tasks. It ensures a task completes successfully. If a pod fails it creates another one. Jobs are used for short-lived processes. Examples include database migrations.
+
+68. What is CronJob?
+
+CronJob runs jobs on a schedule. It uses cron syntax for scheduling tasks. Examples include backups or report generation. Kubernetes automatically creates jobs based on schedule. It automates periodic tasks.
+
+69. What is Kubernetes Admission Controller?
+
+Admission controllers intercept requests to the API server. They validate or modify requests before execution. They enforce security policies. Examples include resource quota enforcement. They help maintain cluster governance.
+
+70. What is Kubernetes API Object?
+
+API objects represent resources in Kubernetes. Examples include pods, services, and deployments. These objects define desired system state. Kubernetes controllers ensure actual state matches desired state. They are defined in YAML or JSON.
+
+71. What is kubeconfig File?
+
+kubeconfig stores cluster connection information. It contains cluster address and authentication credentials. Tools like kubectl use it to connect to clusters. Multiple cluster contexts can be defined. It enables cluster management from clients.
+
+72. What is kubectl?
+
+kubectl is the command-line tool for Kubernetes. It allows administrators to manage cluster resources. Commands can create, update, and delete objects. It interacts with the API server. It is the primary Kubernetes management tool.
+
+73. What is kubectl get command?
+
+kubectl get retrieves Kubernetes resources. It lists objects like pods, services, or nodes. It provides quick cluster status information. It supports various output formats. It is widely used for monitoring resources.
+
+74. What is kubectl describe command?
+
+kubectl describe provides detailed resource information. It shows events and configuration details. This command is useful for troubleshooting. It reveals scheduling issues and errors. It helps diagnose cluster problems.
+
+75. What is kubectl logs?
+
+kubectl logs retrieves container logs from pods. It helps debug application behavior. Logs can be viewed for specific containers. It also supports streaming logs. This command is critical for troubleshooting.
+
+76. What is kubectl exec?
+
+kubectl exec runs commands inside a container. It allows administrators to access running containers. This is useful for debugging or inspecting environments. Commands execute remotely inside pods. It helps diagnose runtime issues.
+
+77. What is kubectl port-forward?
+
+kubectl port-forward forwards local ports to pods or services. It allows accessing applications locally. This is useful for debugging internal services. Traffic is tunneled securely. It avoids exposing services externally.
+
+78. What is Kubernetes Federation?
+
+Federation allows managing multiple Kubernetes clusters. It provides centralized cluster management. Applications can run across regions. It improves disaster recovery and scalability. Federation supports global deployments.
+
+79. What is Multi-Cluster Kubernetes?
+
+Multi-cluster architecture involves multiple Kubernetes clusters working together. It improves resilience and scalability. Workloads can run across clusters. It supports high availability. Many organizations adopt this model.
+
+80. What is Kubernetes Operator Pattern?
+
+Operator pattern automates management of complex applications. Operators encode operational knowledge. They monitor resources and take actions automatically. Operators simplify lifecycle management. Many databases use this pattern.
+
+81. What is Kubernetes Service Mesh?
+
+Service mesh manages communication between microservices. It provides traffic management and observability. It adds features like retries and security. Service meshes run alongside applications. They simplify microservice networking.
+
+82. What is Istio?
+
+Istio is a service mesh used with Kubernetes. It manages service communication and security. It provides traffic control and monitoring. Istio uses sidecar proxies. It enhances microservice architecture.
+
+83. What is Envoy Proxy?
+
+Envoy is a high-performance proxy used in service meshes. It manages service communication. It provides load balancing and observability. Envoy runs as a sidecar container. Many service meshes rely on it.
+
+84. What is Kubernetes Security Context?
+
+Security context defines security settings for pods or containers. It controls privileges and permissions. Examples include running as non-root users. Security contexts improve container security. They enforce runtime policies.
+
+85. What is Pod Security Policy (Deprecated)?
+
+Pod Security Policy controlled pod security settings. It restricted container privileges. Kubernetes replaced it with Pod Security Admission. Policies ensured compliance with security standards. They helped secure clusters.
+
+86. What is Pod Security Admission?
+
+Pod Security Admission enforces security standards for pods. It replaces Pod Security Policies. Policies define restricted, baseline, or privileged levels. This improves cluster security. It prevents unsafe container configurations.
+
+87. What is Kubernetes RBAC Role?
+
+Role defines permissions within a namespace. It specifies allowed operations on resources. Roles control user actions. They work with RoleBindings. This improves cluster access control.
+
+88. What is ClusterRole?
+
+ClusterRole defines permissions across the entire cluster. It is not limited to namespaces. Administrators assign ClusterRoles to users. They control cluster-wide operations. ClusterRoles support global access management.
+
+89. What is RoleBinding?
+
+RoleBinding grants permissions defined in a role. It assigns roles to users or service accounts. Bindings apply within a namespace. They enforce RBAC policies. They ensure controlled access to resources.
+
+90. What is ClusterRoleBinding?
+
+ClusterRoleBinding assigns cluster roles to users globally. It applies permissions across all namespaces. Administrators use it for cluster-level access. It manages cluster-wide privileges. This ensures centralized access control.
+
+91. What is Kubernetes API Aggregation?
+
+API aggregation allows extending Kubernetes APIs. It enables integration of external services. Custom APIs appear as part of the Kubernetes API. This expands platform functionality. Developers use it for advanced integrations.
+
+92. What is Kubernetes Event?
+
+Events are records of cluster activities. They track resource changes and issues. Events help diagnose failures. They show scheduling errors or container crashes. Administrators use them for debugging.
+
+93. What is Kubernetes Controller?
+
+Controller monitors cluster resources. It compares desired state with actual state. If differences occur it takes corrective action. Controllers automate cluster management. Examples include ReplicaSet controller.
+
+94. What is Garbage Collection in Kubernetes?
+
+Garbage collection removes unused resources automatically. It deletes objects with no dependencies. This prevents resource clutter. It ensures cluster resources remain clean. Controllers manage garbage collection.
+
+95. What is Kubernetes Resource Limits?
+
+Resource limits define maximum CPU and memory usage. They prevent containers from consuming excessive resources. Limits ensure fair resource distribution. Kubernetes enforces these constraints. They improve cluster stability.
+
+96. What is Resource Requests?
+
+Resource requests define minimum CPU and memory required. Scheduler uses them to place pods on nodes. They guarantee resource availability. Requests ensure applications get necessary resources. They influence scheduling decisions.
+
+97. What is Ephemeral Storage in Kubernetes?
+
+Ephemeral storage is temporary storage used by containers. It includes writable container layers and logs. Data is deleted when pods terminate. It is not suitable for persistent data. Persistent volumes are used instead.
+
+98. What is Kubernetes Backup Strategy?
+
+Backup strategies include saving etcd data regularly. Cluster configuration files should also be backed up. Persistent volumes require storage backups. Tools automate cluster backup processes. Backups enable disaster recovery.
+
+99. What is Kubernetes Disaster Recovery?
+
+Disaster recovery ensures cluster restoration after failure. It includes restoring etcd and infrastructure. Multi-region clusters improve resilience. Automated backups help recover data. DR strategies ensure application availability.
+
+100. Explain a Real Production Kubernetes Architecture
+
+In production environments applications run on Kubernetes clusters. Containers are built using Docker images and deployed via Helm charts. Traffic enters through Ingress and load balancers. Autoscaling ensures performance during traffic spikes. Monitoring and logging ensure system observability.
