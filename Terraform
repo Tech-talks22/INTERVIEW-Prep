@@ -216,3 +216,154 @@ We created modules for VPC, EC2, security groups, and load balancers.
 Terraform state was stored in S3 with DynamoDB locking. 
 Infrastructure deployments were triggered from CI/CD pipelines using Jenkins. 
 This automated and standardized infrastructure provisioning.
+
+
+31. What is terraform fmt?
+
+terraform fmt formats Terraform configuration files according to standard style guidelines. 
+It improves readability and consistency of code. 
+The command automatically adjusts spacing and alignment. 
+It is often used before committing code to Git repositories.
+Many CI pipelines run this command to maintain coding standards.
+
+32. What is terraform validate?
+
+terraform validate checks whether Terraform configuration files are syntactically correct.
+It ensures that the configuration follows Terraform language rules. 
+This command does not access remote services. 
+It only verifies the structure of the code. It helps detect errors early before deployment.
+
+33. What is the purpose of .terraform directory?
+
+The .terraform directory stores provider plugins and module downloads. 
+It is automatically created during terraform init. 
+This directory also stores backend configuration information. 
+It should not usually be committed to Git. Instead it is regenerated when needed.
+
+34. What is the purpose of terraform.tfvars file?
+
+The terraform.tfvars file stores values for input variables.
+It helps separate configuration logic from environment-specific values.
+Terraform automatically loads this file during execution.
+It simplifies managing multiple environments.
+Sensitive variables should still be handled securely.
+
+35. What is the difference between Variables and Locals?
+
+Variables allow external input values to Terraform configurations.
+Locals are internally defined values within Terraform code.
+Variables increase flexibility and reuse across environments. 
+Locals simplify repeated expressions in the configuration. 
+Both improve maintainability of Terraform code.
+
+36. What is a Provisioner in Terraform?
+
+Provisioners are used to execute scripts on resources after creation.
+Examples include local-exec and remote-exec. 
+They can run shell commands or configuration scripts. 
+Provisioners are usually used for bootstrapping servers.
+However they should be avoided when better tools exist.
+
+37. What is remote-exec provisioner?
+
+remote-exec provisioner runs commands on a remote resource after it is created.
+It connects through SSH or WinRM. It is commonly used for installing software on servers. 
+Terraform executes commands after provisioning the resource. This helps automate initial server setup.
+
+38. What is local-exec provisioner?
+
+local-exec runs commands on the local machine executing Terraform.
+It does not run inside the created resource. 
+It is often used for logging, notifications, or integration tasks.
+For example sending deployment details to monitoring systems. It runs after resource creation.
+
+39. What is Terraform Dependency?
+
+Terraform automatically determines dependencies between resources.
+If one resource depends on another, Terraform creates them in correct order.
+Dependencies are inferred from resource references. 
+Manual dependencies can be defined using depends_on.This ensures proper infrastructure deployment order.
+
+40. What is depends_on?
+
+depends_on explicitly defines resource dependencies. 
+It ensures one resource is created before another. 
+Terraform usually detects dependencies automatically.
+But in complex scenarios manual dependencies may be needed.
+This avoids race conditions during infrastructure creation.
+
+41. What is Terraform Graph?
+
+terraform graph generates a visual representation of resource dependencies. 
+It shows how resources are connected. 
+This helps understand infrastructure architecture. 
+The graph can be visualized using tools like Graphviz. 
+It is useful for debugging complex infrastructure.
+
+42. What is Terraform Drift?
+
+Drift occurs when actual infrastructure differs from Terraform state.
+This usually happens when manual changes are made in the cloud console. 
+Terraform detects drift during terraform plan. 
+The plan will show differences between desired and actual infrastructure. 
+Fixing drift ensures infrastructure consistency.
+
+43. What is terraform refresh?
+
+terraform refresh updates the state file with real infrastructure data.
+It queries the provider APIs for current resource information.
+This ensures Terraform state matches actual infrastructure.
+It is useful when external changes happen. 
+However recent Terraform versions include refresh automatically.
+
+44. What is terraform output command?
+
+terraform output displays output variables defined in Terraform configuration.
+It shows values after infrastructure deployment. 
+For example server IP address or DNS names.
+Outputs help share information with other tools. CI/CD pipelines often use this command.
+
+45. What is terraform show?
+
+terraform show displays detailed information about Terraform state or plan files.
+It shows infrastructure resources managed by Terraform. 
+The command can also display changes in a plan file.
+This helps understand resource configuration. It is useful for debugging infrastructure.
+
+46. What is Terraform Lock File?
+
+Terraform lock file (.terraform.lock.hcl) records provider versions used in a project. 
+It ensures consistent provider versions across environments. 
+This prevents unexpected provider updates. 
+Teams use lock files for reproducible infrastructure deployments.
+It improves stability of Terraform projects.
+
+47. What is Provider Version Constraint?
+
+Provider version constraints control which provider versions Terraform uses.
+They prevent breaking changes from newer versions. 
+Version constraints are defined in Terraform configuration.
+Example: specifying minimum or exact provider version.
+This ensures compatibility and stability.
+
+48. How Terraform handles Infrastructure Updates?
+
+Terraform compares configuration with state during terraform plan.
+It determines whether resources must be created, updated, or destroyed. 
+Terraform then executes these changes during terraform apply. 
+Only necessary changes are applied. This ensures efficient infrastructure management.
+
+49. What is Immutable Infrastructure in Terraform?
+
+Immutable infrastructure means replacing resources instead of modifying them. 
+If configuration changes, Terraform recreates resources. 
+This ensures clean and predictable deployments. 
+It avoids configuration drift. Many modern DevOps environments follow this approach.
+
+50. How Terraform Supports Multi-Cloud?
+
+Terraform uses provider plugins to interact with multiple cloud platforms.
+A single configuration can manage resources across different clouds.
+For example deploying resources in AWS and Azure simultaneously.
+This flexibility makes Terraform powerful for hybrid environments.
+Organizations adopt it for multi-cloud strategies.
