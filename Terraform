@@ -1,0 +1,355 @@
+1️⃣ Explain Terraform Architecture
+
+Answer:
+
+Terraform architecture mainly consists of the following components:
+
+1. Terraform Core
+
+Responsible for reading configuration files.
+
+Builds execution plan.
+
+Communicates with providers.
+
+2. Providers
+Providers are plugins that interact with cloud platforms like
+Amazon Web Services,
+Microsoft Azure, and
+Google Cloud.
+
+Example:
+
+provider "aws" {
+ region = "us-east-1"
+}
+
+3. Resources
+Resources represent infrastructure components.
+
+Example:
+
+EC2
+
+VPC
+
+Subnets
+
+Load Balancers
+
+Example:
+
+resource "aws_instance" "web" {
+ instance_type = "t2.micro"
+}
+
+4. State File
+Terraform stores infrastructure details in a state file.
+
+State file helps Terraform to:
+
+Track resources
+
+Detect changes
+
+Avoid duplicate infrastructure creation.
+
+
+2️⃣ What is Terraform State File and Why is it Important?
+
+Answer:
+
+Terraform state file keeps track of the current state of infrastructure.
+
+Terraform compares:
+
+Desired State (configuration)
+vs
+Current State (state file)
+
+Benefits:
+
+Tracks infrastructure resources
+
+Improves performance
+
+Allows Terraform to detect changes
+
+Enables collaboration
+
+State files can be stored:
+
+Locally
+
+Remotely
+
+Example remote backend in Amazon Web Services: 
+
+S3 → state storage
+DynamoDB → state locking
+
+3️⃣ What is Terraform Backend?
+
+Answer:
+
+Backend defines where Terraform state files are stored.
+
+Types:
+
+Local Backend
+Default backend stored locally.
+
+Remote Backend
+Used for team collaboration.
+
+Example:
+
+S3
+Terraform Cloud
+Azure Storage
+
+Example configuration:
+
+terraform {
+ backend "s3" {
+   bucket = "terraform-state-bucket"
+   key    = "project/terraform.tfstate"
+   region = "us-east-1"
+ }
+}
+
+Benefits:
+
+Collaboration
+
+State locking
+
+Security
+
+Versioning
+
+
+4️⃣ What is Terraform Module?
+
+Answer:
+
+A module is a reusable Terraform configuration.
+
+Modules help to:
+
+Reduce code duplication
+
+Improve maintainability
+
+Standardize infrastructure
+
+Example project structure:
+
+project
+  main.tf
+  variables.tf
+  outputs.tf
+
+modules
+   vpc
+   ec2
+   security-group
+
+Example usage:
+
+module "vpc" {
+ source = "./modules/vpc"
+}
+
+Real-world usage:
+
+Companies create modules for:
+
+VPC
+
+Kubernetes clusters
+
+Load balancers
+
+Databases
+
+5️⃣ Difference Between count and for_each
+
+Answer:
+
+Both are used to create multiple resources.
+
+count
+
+Creates resources based on number.
+
+Example:
+
+resource "aws_instance" "server" {
+ count = 3
+}
+
+Creates 3 EC2 instances.
+
+for_each
+
+Creates resources based on map or set values.
+
+Example:
+
+resource "aws_instance" "server" {
+ for_each = {
+   dev  = "t2.micro"
+   prod = "t2.medium"
+ }
+}
+
+Benefits:
+
+Better resource identification
+
+More flexible than count.
+
+6️⃣ What is Terraform Workspace?
+
+Answer:
+
+Terraform workspace allows multiple environments using the same configuration.
+
+Example environments:
+
+dev
+qa
+prod
+
+Commands:
+
+terraform workspace new dev
+terraform workspace new prod
+terraform workspace select dev
+
+Benefits:
+
+Environment isolation
+
+Infrastructure reuse.
+
+7️⃣ How do you manage secrets in Terraform?
+
+Answer:
+
+Secrets should never be stored in plain text in Terraform files.
+
+Common approaches:
+
+Environment variables
+
+Secret management tools
+
+CI/CD pipeline secrets
+
+Example tools:
+
+HashiCorp Vault
+
+AWS Secrets Manager
+
+Azure Key Vault
+
+Example:
+
+export AWS_ACCESS_KEY_ID
+export AWS_SECRET_ACCESS_KEY
+8️⃣ Explain Terraform Lifecycle Rules
+
+Answer:
+
+Lifecycle rules control resource creation and destruction behavior.
+
+Example:
+
+lifecycle {
+ create_before_destroy = true
+ prevent_destroy = true
+}
+
+Types:
+
+create_before_destroy
+Creates new resource before deleting old resource.
+
+prevent_destroy
+Prevents accidental deletion.
+
+ignore_changes
+Ignores changes to certain attributes.
+
+Example:
+
+ignore_changes = [tags]
+9️⃣ How Terraform Works in CI/CD Pipeline
+
+Answer:
+
+Terraform is integrated with CI/CD tools like:
+
+Jenkins
+
+GitHub
+
+GitHub Actions
+
+Typical workflow:
+
+Developer writes Terraform code
+        ↓
+Code pushed to GitHub
+        ↓
+Jenkins pipeline triggered
+        ↓
+terraform init
+terraform plan
+terraform apply
+        ↓
+Infrastructure created in AWS
+
+Benefits:
+
+Automation
+
+Consistency
+
+Faster deployments
+
+🔟 Explain a Real-Time Terraform Project
+
+Answer (Best Interview Answer):
+
+In our project, we used Terraform to provision infrastructure in Amazon Web Services.
+
+Infrastructure included:
+
+VPC
+
+Public and private subnets
+
+EC2 instances
+
+Application Load Balancer
+
+Security groups
+
+RDS database
+
+We created Terraform modules for VPC and EC2.
+
+State file was stored in:
+
+S3 bucket → remote state
+DynamoDB → state locking
+
+Terraform was integrated into Jenkins CI/CD pipeline.
+
+Whenever developers push code to GitHub, Jenkins triggers Terraform to deploy infrastructure automatically.
+
+This helped us achieve fully automated infrastructure provisioning.
